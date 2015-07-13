@@ -5,7 +5,7 @@
  * Description: Adds a menu to the admin toolbar to get the shortlink for a post or share the shortlink via Twitter, Buffer.
  * Author: Beka Rice
  * Author URI: http://www.bekarice.com/
- * Version: 1.0.0
+ * Version: 1.0.1
  * Text Domain: shortlink-toolbar
  *
  * Copyright: (c) 2015 Yoast and 2015 Beka Rice
@@ -47,7 +47,7 @@ function shortlink_toolbar_menu() {
 	
 	$twitter_link = 'https://twitter.com/intent/tweet?text=' . str_replace('+','%20', urlencode( $post->post_title . ' - '. $short ) ) . '&source=webclient';
 	
-	$buffer_link = 'https://bufferapp.com/add?url="' . $short . '&source=admin&text=' . str_replace('+','%20', urlencode( $post->post_title . ' - '. $short ) );
+	$buffer_link = 'https://buffer.com/add?url="' . $short . '&source=admin&text=' . str_replace('+','%20', urlencode( $post->post_title . ' - '. $short ) );
 	
 	if ( is_singular() && !is_preview() ) {
 

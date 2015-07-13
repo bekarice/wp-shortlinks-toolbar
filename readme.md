@@ -19,8 +19,10 @@ Adds a "Shortlinks" menu to the WP Toolbar so that you can easily get the shortl
  
 ### Changelog
 
-= 2015.07.13 - version 1.0.1 =
+**2015.07.13 - version 1.0.1**
+
  * Tweak - Updated share via Buffer link to use their new buffer.com URL
 
-= 2015.04.01 - version 1.0.0 =
+**2015.04.01 - version 1.0.0**
+
  * Initial Release

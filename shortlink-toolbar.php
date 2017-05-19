@@ -5,7 +5,7 @@
  * Description: Adds a menu to the admin toolbar to get the shortlink for a post or share the shortlink via Twitter, Buffer.
  * Author: Beka Rice
  * Author URI: http://www.bekarice.com/
- * Version: 1.1.0
+ * Version: 1.1.1
  * Text Domain: shortlink-toolbar
  *
  * Copyright: (c) 2015 Yoast and 2015-2017 Beka Rice
@@ -42,17 +42,45 @@ function shortlink_toolbar_menu() {
 	}
 
 	$short_url    = esc_url( wp_get_shortlink( $post->ID, 'query' ) );
-	$post_title   = str_replace( '+', '%20', urlencode( $post->post_title ) ) . ' - ';
-	$twitter_link = "https://twitter.com/intent/tweet?text={$post_title}{$short_url}&source=webclient";
+	$post_title   = str_replace( '+', '%20', urlencode( $post->post_title ) );
+	$twitter_link = "https://twitter.com/intent/tweet?text={$post_title}%20{$short_url}&source=webclient";
 	$buffer_link  = "https://buffer.com/add?url={$short_url}&source=admin&text={$post_title}";
 
 	// covers posts, pages, custom post types
 	if ( is_singular() ) {
 
-		$wp_admin_bar->add_node( array( 'id' => 'shortlink', 'title' => __( 'Shortlinks', 'shortlink-toolbar' ), 'href' => '#', 'meta' => array( 'onclick' => 'javascript:prompt("Here\'s your short link!", "' . $short_url . '");' ) ) );
-		$wp_admin_bar->add_node( array( 'parent' => 'shortlink', 'id' => 'shortlink_shortened-link', 'title' => __( 'Get Shortlink', 'shortlink-toolbar' ), 'href' => '#', 'meta' => array( 'onclick' => 'javascript:prompt("Here\'s your short link!", "' . $short_url . '");' ) ) );
-		$wp_admin_bar->add_node( array( 'parent' => 'shortlink', 'id' => 'shortlink_twitterlink', 'title' => __( 'Share on Twitter', 'shortlink-toolbar' ), 'href' => esc_url( $twitter_link ), 'meta' => array( 'target' => '_blank' ) ) );
-		$wp_admin_bar->add_node( array( 'parent' => 'shortlink', 'id' => 'shortlink_bufferlink', 'title' => __( 'Share via Buffer', 'shortlink-toolbar' ), 'href' => esc_url( $buffer_link ),  'meta' => array( 'target' => '_blank' ) ) );
+		$shortlink_prompt = esc_html__( "Here's your short link!", 'shortlink-toolbar' );
+
+		$wp_admin_bar->add_node( array(
+			'id'    => 'shortlink',
+			'title' => __( 'Shortlinks', 'shortlink-toolbar' ),
+			'href'  => '#',
+			'meta'  => array( 'onclick' => 'javascript:prompt("' . $shortlink_prompt . '", "' . $short_url . '");' ),
+		) );
+
+		$wp_admin_bar->add_node( array(
+			'parent' => 'shortlink',
+			'id'     => 'shortlink_shortened-link',
+			'title'  => __( 'Get Shortlink', 'shortlink-toolbar' ),
+			'href'   => '#',
+			'meta'   => array( 'onclick' => 'javascript:prompt("' . $shortlink_prompt . '", "' . $short_url . '");' ),
+		) );
+
+		$wp_admin_bar->add_node( array(
+			'parent' => 'shortlink',
+			'id'     => 'shortlink_twitterlink',
+			'title'  => __( 'Share on Twitter', 'shortlink-toolbar' ),
+			'href'   => esc_url( $twitter_link ),
+			'meta'   => array( 'target' => '_blank' ),
+		) );
+
+		$wp_admin_bar->add_node( array(
+			'parent' => 'shortlink',
+			'id'     => 'shortlink_bufferlink',
+			'title'  => __( 'Share via Buffer', 'shortlink-toolbar' ),
+			'href'   => esc_url( $buffer_link ),
+			'meta'   => array( 'target' => '_blank' ),
+		) );
 	}
 }
 add_action( 'admin_bar_menu', 'shortlink_toolbar_menu', 95 );
